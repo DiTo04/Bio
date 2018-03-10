@@ -2,16 +2,19 @@ plugins {
     id "net.ltgt.apt" version "0.10"
     id 'java'
     id 'idea'
+    id 'java-library'
+    id 'maven'
 }
 
 group 'se.tennander.bio'
-version '1.0-SNAPSHOT'
+version '0.1-SNAPSHOT'
 
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -24,4 +27,11 @@ dependencies {
     compile "com.sparkjava:spark-core:2.7.1"
     apt 'com.google.auto.factory:auto-factory:1.0-beta4'
     apt 'com.google.dagger:dagger-compiler:2.14.1'
+}
+
+jar {
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version)
+    }
 }
