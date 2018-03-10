@@ -29,6 +29,14 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.14.1'
 }
 
+task publishJavadoc(dependsOn: javadoc) {
+    description "Publishes the javadoc to the source controlled folder doc/javadoc."
+    group "documentation"
+    doLast {
+        ant.move(file: javadoc.destinationDir, toFile: "doc/javadoc")
+    }
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
