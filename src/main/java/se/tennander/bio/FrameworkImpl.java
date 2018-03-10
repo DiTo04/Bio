@@ -9,29 +9,29 @@ import spark.Spark;
 @Singleton
 class FrameworkImpl implements Framework {
 
-  private final int port;
+  private final HttpService httpService;
   private final HttpConnectorFactory sparkConnectorFactory;
 
   /**
    * Injectable constructor.
-   * @param port The port used by the framework to listen to requests.
+   * @param httpService The service used to connect to http endpoints.
    * @param httpConnectorFactory The connector used to parse Services.
    */
   @Inject
   FrameworkImpl(
-      @Port int port, HttpConnectorFactory httpConnectorFactory) {
-    this.port = port;
+      HttpService httpService, HttpConnectorFactory httpConnectorFactory) {
+    this.httpService = httpService;
     this.sparkConnectorFactory = httpConnectorFactory;
   }
 
   @Override
   public void setUpServices(Set<Service> services) throws FrameWorkException {
-    Spark.port(port);
+    httpService.setUp();
     for (Service service : services) {
       HttpConnector httpConnector = sparkConnectorFactory.create(service);
       httpConnector.connect();
     }
-    Spark.init();
+    httpService.init();
     Spark.awaitInitialization();
   }
 }

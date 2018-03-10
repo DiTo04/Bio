@@ -1,20 +1,33 @@
 package se.tennander.bio;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import spark.Route;
 import spark.Spark;
 
-public class HttpService {
+@Singleton
+class HttpService {
+
+  private final int port;
 
   @Inject
-  HttpService() {
+  HttpService(@Port int port) {
+    this.port = port;
   }
 
-  public void createGetEndpoint(String path, Route route) {
+  void createGetEndpoint(String path, Route route) {
     Spark.get(path, route);
   }
 
-  public void createPostEndpoint(String path, Route route) {
+  void createPostEndpoint(String path, Route route) {
     Spark.post(path, route);
+  }
+
+  void setUp() {
+    Spark.port(port);
+  }
+
+  void init() {
+    Spark.init();
   }
 }
