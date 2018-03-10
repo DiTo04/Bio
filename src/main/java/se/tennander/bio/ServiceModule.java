@@ -4,10 +4,10 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * This module encapsulats all the needed setup for Framework.
+ * This module encapsulats all the needed setup before initializing the services.
  */
 @Module
-public class FrameworkModule {
+public class ServiceModule {
   private final int port;
   private final String uriPrefix;
 
@@ -16,13 +16,13 @@ public class FrameworkModule {
    * @param port The port the Server should be active on.
    * @param uriPrefix THe prefix that the uri should have.
    */
-  public FrameworkModule(int port, String uriPrefix) {
+  public ServiceModule(int port, String uriPrefix) {
     this.port = port;
     this.uriPrefix = uriPrefix;
   }
 
   @Provides
-  Framework providesFramework(FrameworkImpl impl) {
+  ServiceInitializer providesFramework(ServiceInitializerImpl impl) {
     return impl;
   }
 

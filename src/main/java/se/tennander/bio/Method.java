@@ -27,7 +27,7 @@ class Method {
     } else if (isPost()) {
       return method.getAnnotation(Post.class).value();
     } else {
-      throw new FrameWorkException("Getting Uri on nether Get or Post method!");
+      throw new BioException("Getting Uri on nether Get or Post method!");
     }
   }
 

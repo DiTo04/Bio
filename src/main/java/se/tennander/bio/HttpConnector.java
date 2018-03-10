@@ -37,7 +37,7 @@ class HttpConnector {
     methodsSortedOnUri = new HashSet<>();
   }
 
-  void connect() throws FrameWorkException {
+  void connect() throws BioException {
     parseForUris();
     for (List<Method> methodsForUri : methodsSortedOnUri) {
       connectUri(methodsForUri);
@@ -45,13 +45,13 @@ class HttpConnector {
   }
 
   private void parseForUris() {
-    HashMap<String, List<Method>> uriToMethod = new HashMap<>();
+    HashMap<String, List<Method>> uriToMethods = new HashMap<>();
     Stream.of(service.getClass().getDeclaredMethods())
         .forEach(method -> {
           Method newMethod = new Method(service, method);
-          addToMap(newMethod, uriToMethod);
+          addToMap(newMethod, uriToMethods);
         });
-    this.methodsSortedOnUri = uriToMethod.values();
+    this.methodsSortedOnUri = uriToMethods.values();
   }
 
   private void addToMap(Method method, HashMap<String, List<Method>> uriToMethod) {
@@ -63,7 +63,7 @@ class HttpConnector {
     methodsForUri.add(method);
   }
 
-  private void connectUri(List<Method> methods) throws FrameWorkException {
+  private void connectUri(List<Method> methods) throws BioException {
     List<Method> getMethods = methods.stream().filter(Method::isGet).collect(toList());
     connectSameUriAndCallType(getMethods);
     List<Method> postMethods = methods.stream().filter(Method::isPost).collect(toList());
@@ -111,14 +111,14 @@ class HttpConnector {
   }
 
   private void tryToCallMethod(
-      Method method, ConnectableFlowable<Request> requests) throws FrameWorkException {
+      Method method, ConnectableFlowable<Request> requests) throws BioException {
     try {
       method.subscribe(requests);
     } catch (InvocationTargetException | IllegalAccessException e) {
       String reason = Optional.ofNullable(e.getCause())
           .map(Throwable::getMessage)
           .orElse(e.getMessage());
-      throw new FrameWorkException(
+      throw new BioException(
           "Could not connect to method "
               + method.getName() + ". Because " + reason);
     }

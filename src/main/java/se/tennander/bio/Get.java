@@ -6,9 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation signals that the service wants to accept requests on the given method.
- * Methods will ether need to follow the {@link spark.Route} syntax
- * or accept a {@link io.reactivex.Flowable}.
+ * This annotation signals that the service wants to accept
+ * {@code GET} requests on the given URI.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

@@ -104,7 +104,7 @@ public class HttpConnectorTest {
     verify(testServiceWithSameUri).synchronousGetRequestOnSameUri(request, response);
   }
 
-  @Test(expected = FrameWorkException.class)
+  @Test(expected = BioException.class)
   public void exceptionShouldBePropegated() throws Exception {
     // Given
     target = new HttpConnector(new EvilService(), httpService, URI_PREFIX);

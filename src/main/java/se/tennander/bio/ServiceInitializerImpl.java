@@ -7,7 +7,7 @@ import spark.Spark;
 
 
 @Singleton
-class FrameworkImpl implements Framework {
+class ServiceInitializerImpl implements ServiceInitializer {
 
   private final HttpService httpService;
   private final HttpConnectorFactory sparkConnectorFactory;
@@ -18,14 +18,14 @@ class FrameworkImpl implements Framework {
    * @param httpConnectorFactory The connector used to parse Services.
    */
   @Inject
-  FrameworkImpl(
+  ServiceInitializerImpl(
       HttpService httpService, HttpConnectorFactory httpConnectorFactory) {
     this.httpService = httpService;
     this.sparkConnectorFactory = httpConnectorFactory;
   }
 
   @Override
-  public void setUpServices(Set<Service> services) throws FrameWorkException {
+  public void setUpServices(Set<Service> services) throws BioException {
     httpService.setUp();
     for (Service service : services) {
       HttpConnector httpConnector = sparkConnectorFactory.create(service);
