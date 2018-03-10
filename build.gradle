@@ -29,10 +29,17 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.14.1'
 }
 
+javadoc {
+    doFirst {
+        delete javadoc.destinationDir
+    }
+}
+
 task publishJavadoc(dependsOn: javadoc) {
     description "Publishes the javadoc to the source controlled folder doc/javadoc."
     group "documentation"
     doLast {
+        delete "doc/javadoc"
         ant.move(file: javadoc.destinationDir, toFile: "doc/javadoc")
     }
 }
